@@ -36,6 +36,7 @@ async def analyze_text(req: AnalysisRequest):
     # We will use mpiexec or mpirun
     cmd = [
         "mpirun",
+        "--allow-run-as-root",
         "-np", str(req.num_processes),
         "python3", "mpi_analyzer.py",
         "--file", tmp_filename
@@ -91,6 +92,7 @@ async def analyze_kaggle(limit: int = 1000, np: int = 4):
         
     cmd = [
         "mpirun",
+        "--allow-run-as-root",
         "-np", str(np),
         "python3", "mpi_analyzer.py",
         "--file", tmp_filename

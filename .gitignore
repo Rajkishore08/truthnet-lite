@@ -1,0 +1,33 @@
+# TruthNet Lite Version Control Settings
+
+# Python Data Drops
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environments
+venv/
+env/
+.env
+.venv
+truthnet-env/
+
+# Mac OS Specific
+.DS_Store
+
+# Datasets (Preventing massive IO tracking commits locally)
+backend/dataset/True.csv
+backend/dataset/Fake.csv
+
+# NLP Data
+nltk_data/
+
+# Javascript Nodes
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# System tracking
+.gemini/

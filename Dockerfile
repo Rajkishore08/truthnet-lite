@@ -1,7 +1,7 @@
 # ==========================================
 # STAGE 1: VITE REACT UI BUILD
 # ==========================================
-FROM node:18 AS frontend-build
+FROM node:22 AS frontend-build
 WORKDIR /app/frontend/truthnet-ui
 
 # Pull only explicit JS dependencies ensuring caching

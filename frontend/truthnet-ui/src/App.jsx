@@ -251,27 +251,6 @@ function App() {
         <p className="subtitle" style={{fontSize: '1.2rem', color: '#cbd5e1'}}>A Hybrid MPI-Based Parallel System for Large-Scale Fake News Detection</p>
       </header>
 
-      <div className="glass-panel" style={{marginBottom: '2rem', background: 'linear-gradient(135deg, rgba(15,23,42,0.8), rgba(15,23,42,0.95))', borderColor: 'rgba(0,133,239,0.3)', boxShadow: '0 0 40px rgba(0,0,0,0.5)'}}>
-        <h2 style={{borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem'}}>⚡ Active Computational Architecture</h2>
-        <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.2rem', marginTop: '1.2rem'}}>
-          <div className="result-card" style={{borderLeftColor: 'var(--accent-blue)', marginTop: 0, background: 'rgba(0,133,239,0.05)'}}>
-            <h3 style={{color: 'var(--accent-blue)', marginBottom: '0.6rem', fontSize: '1.1rem'}}>🌐 Distributed Memory (MPI)</h3>
-            <p style={{fontSize: '0.9rem', color: '#cbd5e1', lineHeight: '1.4'}}>Physical memory completely isolated per core. Worker Ranks operate independently scaling effortlessly across massive computing clusters.</p>
-          </div>
-          <div className="result-card" style={{borderLeftColor: 'var(--accent-green)', marginTop: 0, background: 'rgba(0,255,107,0.05)'}}>
-            <h3 style={{color: 'var(--accent-green)', marginBottom: '0.6rem', fontSize: '1.1rem'}}>⚖️ Pure Scatter & Gather</h3>
-            <p style={{fontSize: '0.9rem', color: '#cbd5e1', lineHeight: '1.4'}}>Rank 0 seamlessly segments massive array workloads recursively into perfect fractions synchronously broadcast utilizing comm.scatter().</p>
-          </div>
-          <div className="result-card" style={{borderLeftColor: '#f59e0b', marginTop: 0, background: 'rgba(245,158,11,0.05)'}}>
-            <h3 style={{color: '#f59e0b', marginBottom: '0.6rem', fontSize: '1.1rem'}}>🔀 Data Parallelism</h3>
-            <p style={{fontSize: '0.9rem', color: '#cbd5e1', lineHeight: '1.4'}}>Petabytes of Kaggle corpus fragments explicitly scattered directly from RAM into remote mathematical topologies!</p>
-          </div>
-          <div className="result-card" style={{borderLeftColor: '#8b5cf6', marginTop: 0, background: 'rgba(139,92,246,0.05)'}}>
-            <h3 style={{color: '#8b5cf6', marginBottom: '0.6rem', fontSize: '1.1rem'}}>⚡ Hybrid Shared-Memory</h3>
-            <p style={{fontSize: '0.9rem', color: '#cbd5e1', lineHeight: '1.4'}}>Inside local nodes, ThreadPools concurrently slice CPU power to process multiple NLP deep inferences universally simultaneously.</p>
-          </div>
-        </div>
-      </div>
 
       <div className="glass-panel input-section">
         <h2>Input Articles</h2>
@@ -434,6 +413,29 @@ function App() {
           </div>
         </div>
       )}
+      
+      <div className="glass-panel" style={{marginBottom: '2rem', background: 'linear-gradient(135deg, rgba(15,23,42,0.8), rgba(15,23,42,0.95))', borderColor: 'rgba(0,133,239,0.3)', boxShadow: '0 0 40px rgba(0,0,0,0.5)'}}>
+        <h2 style={{borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem'}}>⚡ Active Computational Architecture</h2>
+        <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.2rem', marginTop: '1.2rem'}}>
+          <div className="result-card" style={{borderLeftColor: 'var(--accent-blue)', marginTop: 0, background: 'rgba(0,133,239,0.05)'}}>
+            <h3 style={{color: 'var(--accent-blue)', marginBottom: '0.6rem', fontSize: '1.1rem'}}>🌐 Distributed Memory (MPI)</h3>
+            <p style={{fontSize: '0.9rem', color: '#cbd5e1', lineHeight: '1.4'}}>Physical memory completely isolated per core. Worker Ranks operate independently scaling effortlessly across massive computing clusters.</p>
+          </div>
+          <div className="result-card" style={{borderLeftColor: 'var(--accent-green)', marginTop: 0, background: 'rgba(0,255,107,0.05)'}}>
+            <h3 style={{color: 'var(--accent-green)', marginBottom: '0.6rem', fontSize: '1.1rem'}}>⚖️ Pure Scatter & Gather</h3>
+            <p style={{fontSize: '0.9rem', color: '#cbd5e1', lineHeight: '1.4'}}>Rank 0 seamlessly segments massive array workloads recursively into perfect fractions synchronously broadcast utilizing comm.scatter().</p>
+          </div>
+          <div className="result-card" style={{borderLeftColor: '#f59e0b', marginTop: 0, background: 'rgba(245,158,11,0.05)'}}>
+            <h3 style={{color: '#f59e0b', marginBottom: '0.6rem', fontSize: '1.1rem'}}>🔀 Data Parallelism</h3>
+            <p style={{fontSize: '0.9rem', color: '#cbd5e1', lineHeight: '1.4'}}>Petabytes of Kaggle corpus fragments explicitly scattered directly from RAM into remote mathematical topologies!</p>
+          </div>
+          <div className="result-card" style={{borderLeftColor: '#8b5cf6', marginTop: 0, background: 'rgba(139,92,246,0.05)'}}>
+            <h3 style={{color: '#8b5cf6', marginBottom: '0.6rem', fontSize: '1.1rem'}}>⚡ Hybrid Shared-Memory</h3>
+            <p style={{fontSize: '0.9rem', color: '#cbd5e1', lineHeight: '1.4'}}>Inside local nodes, ThreadPools concurrently slice CPU power to process multiple NLP deep inferences universally simultaneously.</p>
+          </div>
+        </div>
+      </div>
+      
       </div>
     </>
   );

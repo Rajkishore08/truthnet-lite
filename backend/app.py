@@ -68,25 +68,37 @@ async def analyze_text(req: AnalysisRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+KAGGLE_DF_CACHE = None
+
 @app.get("/analyze_kaggle")
 async def analyze_kaggle(limit: int = 1000, np: int = 4):
+    global KAGGLE_DF_CACHE
     import pandas as pd
     import os
-    import kagglehub
     
-    try:
-        path = kagglehub.dataset_download("clmentbisaillon/fake-and-real-news-dataset")
-        true_path = os.path.join(path, "True.csv")
-        fake_path = os.path.join(path, "Fake.csv")
-    except Exception as e:
-        print("Failed to download Dataset from KaggleHub:", str(e))
-        raise HTTPException(status_code=500, detail="Cloud KaggleHub Download Failure! Check Render outbound permissions!")
+    if KAGGLE_DF_CACHE is None:
+        try:
+            import kagglehub
+            path = kagglehub.dataset_download("clmentbisaillon/fake-and-real-news-dataset")
+            true_path = os.path.join(path, "True.csv")
+            fake_path = os.path.join(path, "Fake.csv")
+            
+            df_true = pd.read_csv(true_path, encoding='utf-8')
+            df_fake = pd.read_csv(fake_path, encoding='utf-8')
+            KAGGLE_DF_CACHE = pd.concat([df_true, df_fake]).reset_index(drop=True)
+        except Exception as e:
+            print("Failed KaggleHub download context, falling back locally:", str(e))
+            true_path_loc = os.path.join(os.path.dirname(__file__), 'dataset', 'True.csv')
+            fake_path_loc = os.path.join(os.path.dirname(__file__), 'dataset', 'Fake.csv')
+            if os.path.exists(true_path_loc) and os.path.exists(fake_path_loc):
+                df_true = pd.read_csv(true_path_loc, encoding='utf-8')
+                df_fake = pd.read_csv(fake_path_loc, encoding='utf-8')
+                KAGGLE_DF_CACHE = pd.concat([df_true, df_fake]).reset_index(drop=True)
+            else:
+                raise HTTPException(status_code=500, detail="Data evaluation missing globally!")
         
-    df_true = pd.read_csv(true_path, encoding='utf-8')
-    df_fake = pd.read_csv(fake_path, encoding='utf-8')
-    df = pd.concat([df_true, df_fake]).sample(frac=1).reset_index(drop=True)
-    
-    subset = df.head(limit)['text'].tolist()
+    df = KAGGLE_DF_CACHE.sample(n=min(limit, len(KAGGLE_DF_CACHE))).reset_index(drop=True)
+    subset = df['text'].tolist()
     
     import tempfile
     with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".json") as f:

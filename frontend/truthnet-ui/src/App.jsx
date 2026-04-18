@@ -14,6 +14,7 @@ import {
 } from 'chart.js';
 import { Bar, Doughnut } from 'react-chartjs-2';
 import FloatingLines from './FloatingLines';
+import CountUp from './CountUp';
 
 // Register ChartJS plugins
 ChartJS.register(
@@ -328,22 +329,33 @@ function App() {
               }}>
                 <div>
                   <h3 style={{color: insights.globalColor, fontSize: '2.5rem', margin: 0, lineHeight: '1'}}>
-                    {insights.globalTrust}
+                    <CountUp
+                      from={0}
+                      to={parseFloat(insights.globalTrust)}
+                      direction="up"
+                      duration={1.5}
+                    />
                   </h3>
                   <p style={{color: '#cbd5e1', margin: '5px 0 0 0', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '2px'}}>Global Trust Score</p>
                 </div>
                 
                 <div style={{display: 'flex', gap: '2rem', textAlign: 'center'}}>
                     <div>
-                        <p style={{fontSize: '1.8rem', color: 'var(--accent-fake)', margin: 0, fontWeight: 'bold'}}>{insights.fakeCount}</p>
+                        <p style={{fontSize: '1.8rem', color: 'var(--accent-fake)', margin: 0, fontWeight: 'bold'}}>
+                            <CountUp from={0} to={insights.fakeCount} separator="," duration={1.2} />
+                        </p>
                         <p style={{fontSize: '0.8rem', color: '#94a3b8', margin: 0}}>Total Fake</p>
                     </div>
                     <div>
-                        <p style={{fontSize: '1.8rem', color: '#ef4444', margin: 0, fontWeight: 'bold'}}>{insights.aiCount}</p>
+                        <p style={{fontSize: '1.8rem', color: '#ef4444', margin: 0, fontWeight: 'bold'}}>
+                            <CountUp from={0} to={insights.aiCount} separator="," duration={1.2} />
+                        </p>
                         <p style={{fontSize: '0.8rem', color: '#94a3b8', margin: 0}}>Total AI</p>
                     </div>
                     <div>
-                        <p style={{fontSize: '1.8rem', color: 'var(--accent-blue)', margin: 0, fontWeight: 'bold'}}>{insights.masterTime}s</p>
+                        <p style={{fontSize: '1.8rem', color: 'var(--accent-blue)', margin: 0, fontWeight: 'bold'}}>
+                            <CountUp from={0} to={parseFloat(insights.masterTime)} duration={1.5} />s
+                        </p>
                         <p style={{fontSize: '0.8rem', color: '#94a3b8', margin: 0}}>Total Execution Time</p>
                     </div>
                 </div>
@@ -351,7 +363,7 @@ function App() {
             )}
             
             <p className="text-muted" style={{fontSize: '0.9rem', marginBottom: '1rem'}}>
-              Total processed articles: {results.total_processed}
+              Total processed articles: <CountUp from={0} to={results.total_processed} separator="," duration={1} />
             </p>
             
             <div style={{ maxHeight: '500px', overflowY: 'auto', paddingRight: '10px', marginTop: '1.5rem' }}>

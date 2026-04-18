@@ -55,20 +55,20 @@ def main():
     local_results = []
     compute_start = time.time()
     
-    for text in local_chunk:
-        with ThreadPoolExecutor(max_workers=2) as executor:
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        for text in local_chunk:
             fn_future = executor.submit(fake_news_detector.analyze, text)
             ai_future = executor.submit(ai_detector.analyze, text)
             
             fn_res = fn_future.result()
             ai_res = ai_future.result()
             
-        local_results.append({
-            "text_snippet": text[:100] + ("..." if len(text) > 100 else ""),
-            "fake_news": fn_res,
-            "ai_detected": ai_res,
-            "Processed_by_Rank": rank
-        })
+            local_results.append({
+                "text_snippet": text[:100] + ("..." if len(text) > 100 else ""),
+                "fake_news": fn_res,
+                "ai_detected": ai_res,
+                "Processed_by_Rank": rank
+            })
         
     compute_end = time.time()
     compute_time = compute_end - compute_start

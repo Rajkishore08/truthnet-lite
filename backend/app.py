@@ -72,12 +72,15 @@ async def analyze_text(req: AnalysisRequest):
 async def analyze_kaggle(limit: int = 1000, np: int = 4):
     import pandas as pd
     import os
+    import kagglehub
     
-    true_path = os.path.join(os.path.dirname(__file__), 'dataset', 'True.csv')
-    fake_path = os.path.join(os.path.dirname(__file__), 'dataset', 'Fake.csv')
-    
-    if not os.path.exists(true_path) or not os.path.exists(fake_path):
-        raise HTTPException(status_code=404, detail="Kaggle Dataset not found locally.")
+    try:
+        path = kagglehub.dataset_download("clmentbisaillon/fake-and-real-news-dataset")
+        true_path = os.path.join(path, "True.csv")
+        fake_path = os.path.join(path, "Fake.csv")
+    except Exception as e:
+        print("Failed to download Dataset from KaggleHub:", str(e))
+        raise HTTPException(status_code=500, detail="Cloud KaggleHub Download Failure! Check Render outbound permissions!")
         
     df_true = pd.read_csv(true_path, encoding='utf-8')
     df_fake = pd.read_csv(fake_path, encoding='utf-8')

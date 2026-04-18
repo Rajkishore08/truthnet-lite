@@ -199,9 +199,36 @@ function App() {
       efficiency,
       karpFlatt,
       gustafson,
+      gustafson,
       masterTime: masterTime.toFixed(2),
       activeWorkers: ranks.length
     };
+    
+    let totalTrustSum = 0;
+    let fakeCount = 0;
+    let aiCount = 0;
+    
+    if(results.results && results.results.length > 0) {
+      results.results.forEach(res => {
+         let fake_score = res.fake_news.prediction === 'Real News' ? (res.fake_news.confidence || 0) : (100 - (res.fake_news.confidence || 100));
+         let ai_score = 100 - (res.ai_detected.score || 0);
+         if(isNaN(fake_score)) fake_score = 50;
+         if(isNaN(ai_score)) ai_score = 50;
+         totalTrustSum += (fake_score + ai_score) / 2;
+         
+         if (res.fake_news.prediction === 'Fake News') fakeCount++;
+         if (res.ai_detected.prediction === 'AI Generated') aiCount++;
+      });
+      
+      insights.globalTrust = (totalTrustSum / results.results.length).toFixed(1);
+      insights.fakeCount = fakeCount;
+      insights.aiCount = aiCount;
+      
+      let glColor = 'var(--accent-fake)';
+      if (insights.globalTrust > 80) glColor = 'var(--accent-real)';
+      else if (insights.globalTrust > 50) glColor = '#f59e0b';
+      insights.globalColor = glColor;
+    }
   }
 
   return (
@@ -232,12 +259,12 @@ function App() {
             <p style={{fontSize: '0.9rem', color: '#cbd5e1', lineHeight: '1.4'}}>Physical memory completely isolated per core. Worker Ranks operate independently scaling effortlessly across massive computing clusters.</p>
           </div>
           <div className="result-card" style={{borderLeftColor: 'var(--accent-green)', marginTop: 0, background: 'rgba(0,255,107,0.05)'}}>
-            <h3 style={{color: 'var(--accent-green)', marginBottom: '0.6rem', fontSize: '1.1rem'}}>⚖️ Dynamic Master-Worker</h3>
-            <p style={{fontSize: '0.9rem', color: '#cbd5e1', lineHeight: '1.4'}}>Rank 0 acts as a hyper-efficient Dispatcher Queue, algorithmically streaming distinct payloads whenever nodes report idle availability.</p>
+            <h3 style={{color: 'var(--accent-green)', marginBottom: '0.6rem', fontSize: '1.1rem'}}>⚖️ Pure Scatter & Gather</h3>
+            <p style={{fontSize: '0.9rem', color: '#cbd5e1', lineHeight: '1.4'}}>Rank 0 seamlessly segments massive array workloads recursively into perfect fractions synchronously broadcast utilizing comm.scatter().</p>
           </div>
           <div className="result-card" style={{borderLeftColor: '#f59e0b', marginTop: 0, background: 'rgba(245,158,11,0.05)'}}>
             <h3 style={{color: '#f59e0b', marginBottom: '0.6rem', fontSize: '1.1rem'}}>🔀 Data Parallelism</h3>
-            <p style={{fontSize: '0.9rem', color: '#cbd5e1', lineHeight: '1.4'}}>Petabytes of corpus fragments scattered dynamically directly from RAM to remote execution clusters simultaneously.</p>
+            <p style={{fontSize: '0.9rem', color: '#cbd5e1', lineHeight: '1.4'}}>Petabytes of Kaggle corpus fragments explicitly scattered directly from RAM into remote mathematical topologies!</p>
           </div>
           <div className="result-card" style={{borderLeftColor: '#8b5cf6', marginTop: 0, background: 'rgba(139,92,246,0.05)'}}>
             <h3 style={{color: '#8b5cf6', marginBottom: '0.6rem', fontSize: '1.1rem'}}>⚡ Hybrid Shared-Memory</h3>
@@ -310,6 +337,36 @@ function App() {
                 <div>
                   <p style={{fontSize: '0.85rem', color: '#94a3b8'}}>Gustafson's Law</p>
                   <p style={{fontSize: '1.4rem', fontWeight: 'bold', color: '#8b5cf6'}}>{insights.gustafson}x</p>
+                </div>
+              </div>
+            )}
+            
+            {insights?.globalTrust && (
+              <div style={{
+                background: 'rgba(0,0,0,0.2)', padding: '1.5rem', borderRadius: '12px',
+                borderLeft: `4px solid ${insights.globalColor}`, marginBottom: '1.5rem',
+                display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+              }}>
+                <div>
+                  <h3 style={{color: insights.globalColor, fontSize: '2.5rem', margin: 0, lineHeight: '1'}}>
+                    {insights.globalTrust}
+                  </h3>
+                  <p style={{color: '#cbd5e1', margin: '5px 0 0 0', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '2px'}}>Global Trust Score</p>
+                </div>
+                
+                <div style={{display: 'flex', gap: '2rem', textAlign: 'center'}}>
+                    <div>
+                        <p style={{fontSize: '1.8rem', color: 'var(--accent-fake)', margin: 0, fontWeight: 'bold'}}>{insights.fakeCount}</p>
+                        <p style={{fontSize: '0.8rem', color: '#94a3b8', margin: 0}}>Total Fake</p>
+                    </div>
+                    <div>
+                        <p style={{fontSize: '1.8rem', color: '#ef4444', margin: 0, fontWeight: 'bold'}}>{insights.aiCount}</p>
+                        <p style={{fontSize: '0.8rem', color: '#94a3b8', margin: 0}}>Total AI</p>
+                    </div>
+                    <div>
+                        <p style={{fontSize: '1.8rem', color: 'var(--accent-blue)', margin: 0, fontWeight: 'bold'}}>{insights.masterTime}s</p>
+                        <p style={{fontSize: '0.8rem', color: '#94a3b8', margin: 0}}>Total Execution Time</p>
+                    </div>
                 </div>
               </div>
             )}

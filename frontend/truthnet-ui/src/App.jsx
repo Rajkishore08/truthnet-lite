@@ -34,7 +34,7 @@ const KAGGLE_API_URL = 'http://localhost:8000/analyze_kaggle';
 
 function App() {
   const [text, setText] = useState('');
-  const [numProcesses, setNumProcesses] = useState(1);
+  const [numProcesses, setNumProcesses] = useState(4);
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState(null);
   const [performanceHistory, setPerformanceHistory] = useState([]);
@@ -265,14 +265,29 @@ function App() {
         ></textarea>
         
         <div className="controls">
-          <div className="process-select">
-            <label>MPI Workers:</label>
-            <select value={numProcesses} onChange={(e) => setNumProcesses(e.target.value)}>
-              <option value="1">1 Core (Sequential)</option>
-              <option value="2">2 Cores</option>
-              <option value="4">4 Cores</option>
-              <option value="8">8 Cores</option>
-            </select>
+          <div className="process-select" style={{ display: 'flex', alignItems: 'center', marginBottom: '1.5rem'}}>
+            <label style={{ marginRight: '1rem', color: '#cbd5e1', fontWeight: 'bold' }}>MPI Workers:</label>
+            <div style={{ display: 'inline-flex', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)', flexShrink: 0 }}>
+              {["1", "2", "4", "8"].map(val => (
+                <button
+                  key={val}
+                  onClick={() => setNumProcesses(val)}
+                  style={{
+                    padding: '8px 16px',
+                    background: String(numProcesses) === val ? 'var(--accent-blue)' : 'transparent',
+                    color: String(numProcesses) === val ? '#fff' : '#94a3b8',
+                    border: 'none',
+                    borderRight: val !== "8" ? '1px solid rgba(255,255,255,0.1)' : 'none',
+                    cursor: 'pointer',
+                    fontWeight: String(numProcesses) === val ? 'bold' : 'normal',
+                    transition: 'all 0.2s ease',
+                    minWidth: '90px'
+                  }}
+                >
+                  {val === "1" ? "1 Core" : `${val} Cores`}
+                </button>
+              ))}
+            </div>
           </div>
           <button 
             className="btn-primary" 

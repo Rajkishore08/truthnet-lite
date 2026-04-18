@@ -354,8 +354,9 @@ function App() {
               Total processed articles: {results.total_processed}
             </p>
             
-            <div style={{ maxHeight: '500px', overflowY: 'auto', paddingRight: '10px' }}>
-              {results.results.map((res, i) => {
+            <div style={{ maxHeight: '500px', overflowY: 'auto', paddingRight: '10px', marginTop: '1.5rem' }}>
+              <p style={{fontSize: '0.8rem', color: '#94a3b8', textTransform: 'uppercase', marginBottom: '10px'}}>Displaying Log Preview (Top 100 entries)</p>
+              {results.results.slice(0, 100).map((res, i) => {
                 let fake_score = res.fake_news.prediction === 'Real News' ? (res.fake_news.confidence || 0) : (100 - (res.fake_news.confidence || 100));
                 let ai_score = 100 - (res.ai_detected.score || 0); // score is 0-100 where 100 is highly AI generated
                 if(isNaN(fake_score)) fake_score = 50;
